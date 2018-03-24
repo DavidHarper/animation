@@ -49,7 +49,9 @@ public class GalileanSatelliteView extends JPanel {
 		setFont(new Font("SansSerif", Font.BOLD, 24));
 	}
 
-	protected void paintComponent(Graphics g) {
+	protected void paintComponent(Graphics gOriginal) {
+		Graphics g = gOriginal.create();
+		
 		Dimension size = getSize();
 
 		int xc = size.width / 2;
@@ -100,6 +102,8 @@ public class GalileanSatelliteView extends JPanel {
 		g.setColor(Color.black);
 
 		g.drawString(datestring, 5, 30);
+		
+		g.dispose();
 	}
 
 }

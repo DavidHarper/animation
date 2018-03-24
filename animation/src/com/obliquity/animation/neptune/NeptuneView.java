@@ -60,7 +60,9 @@ public class NeptuneView extends JPanel {
 		setFont(new Font("SansSerif", Font.BOLD, 24));
 	}
 
-	protected void paintComponent(Graphics g) {
+	protected void paintComponent(Graphics gOriginal) {
+		Graphics g = gOriginal.create();
+		
 		Dimension size = getSize();
 
 		int xc = size.width / 4;
@@ -251,6 +253,8 @@ public class NeptuneView extends JPanel {
 		String datestring = format.format(t);
 
 		g.drawString(datestring, 5, 30);
+		
+		g.dispose();
 	}
 
 }
