@@ -29,6 +29,7 @@ import java.awt.Graphics;
 import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 
 import javax.swing.JPanel;
 
@@ -105,6 +106,20 @@ public class NeptuneView extends JPanel {
 			g.fillArc(x - sRadius, y - sRadius, 2 * sRadius + 1,
 					2 * sRadius + 1, 0, 360);
 		}
+		
+		FontMetrics fm = g.getFontMetrics();
+		
+		g.setColor(Color.black);
+		
+		String caption = "Orbits of Uranus and Neptune";
+		
+		int w = fm.stringWidth(caption);
+		
+		int textHeight = fm.getHeight();
+		
+		int yCaption = size.height - 10 - textHeight;
+		
+		g.drawString(caption, xc - w/2, yCaption);
 
 		xc = (3 * size.width) / 4;
 
@@ -215,11 +230,25 @@ public class NeptuneView extends JPanel {
 		g.fillArc(x - sRadius, y - sRadius, 2 * sRadius + 1,
 				2 * sRadius + 1, 0, 360);
 
+		g.setColor(Color.black);
+		
+		caption = "Displacement of Uranus";
+				
+		w = fm.stringWidth(caption);
+		
+		g.drawString(caption, xc - w/2, yCaption);
+		
+		caption = "in rotating frame";
+		
+		w = fm.stringWidth(caption);
+		
+		yCaption += textHeight;
+		
+		g.drawString(caption, xc - w/2, yCaption);
+
 		double t = model.getTime();
 		
 		String datestring = format.format(t);
-
-		g.setColor(Color.black);
 
 		g.drawString(datestring, 5, 30);
 	}

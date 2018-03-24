@@ -94,7 +94,7 @@ public class NeptuneApp {
 		frame.setContentPane(panel);
 
 		// Display the window.
-		frame.setSize(850, 500);
+		frame.setSize(850, 550);
 		
 		frame.setVisible(true);
 	}
