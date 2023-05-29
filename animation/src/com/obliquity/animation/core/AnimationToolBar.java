@@ -30,6 +30,7 @@ import javax.swing.JToolBar;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 
+@SuppressWarnings("serial")
 public class AnimationToolBar extends JToolBar {
 	public AnimationToolBar(AbstractAnimationController controller) {
 		JButton btnPlay = makeNavigationButton("Play24", "Run animation", "Run");
