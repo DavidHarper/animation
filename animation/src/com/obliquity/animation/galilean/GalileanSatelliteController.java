@@ -34,12 +34,14 @@ public class GalileanSatelliteController extends AbstractAnimationController {
 	private long ticks;
 
 	private GalileanSatelliteModel model;
+	private GalileanSatelliteView view;
 	
-	public GalileanSatelliteController(GalileanSatelliteModel model, int timerDelay, int timerSpeed, int dt) {
+	public GalileanSatelliteController(GalileanSatelliteModel model, GalileanSatelliteView view, int timerDelay, int timerSpeed, int dt) {
 		super(timerDelay, timerSpeed);
 		
 		this.dt = dt;
 		this.model = model;
+		this.view = view;
 		
 		Date now = new Date();
 		ticks = now.getTime();
@@ -56,5 +58,6 @@ public class GalileanSatelliteController extends AbstractAnimationController {
 		ticks += timestep;
 
 		model.setTime(ticks);
+		view.repaint();
 	}
 }

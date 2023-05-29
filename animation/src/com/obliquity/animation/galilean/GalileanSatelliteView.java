@@ -30,6 +30,7 @@ import java.awt.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+@SuppressWarnings("serial")
 public class GalileanSatelliteView extends JPanel {
 	private GalileanSatelliteModel model;
 	
@@ -41,8 +42,6 @@ public class GalileanSatelliteView extends JPanel {
 		super(new BorderLayout());
 		this.model = model;
 		this.scale = scale;
-		
-		model.setView(this);
 		
 		setOpaque(true);
 		setBackground(Color.white);

@@ -48,18 +48,9 @@ public class GalileanSatelliteModel {
 	
 	private long ticks;
 	
-	private GalileanSatelliteView view;
-	
-	public void setView(GalileanSatelliteView view) {
-		this.view = view;
-	}
-	
 	public void setTime(long ticks) {
 		this.ticks = ticks;
 		calculateAngles();
-		
-		if (view != null)
-			view.repaint();
 	}
 	
 	public long getTime() {

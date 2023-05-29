@@ -63,6 +63,10 @@ public class GalileanSatelliteApp {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		GalileanSatelliteModel model = new GalileanSatelliteModel();
+
+		double scale = getDouble("scale", DEFAULT_SCALE);
+
+		GalileanSatelliteView view = new GalileanSatelliteView(model, scale);
 		
 		int pause = Integer.getInteger("pause", DEFAULT_PAUSE);
 		
@@ -70,15 +74,11 @@ public class GalileanSatelliteApp {
 		
 		int dt = Integer.getInteger("dt", DEFAULT_DT);
 
-		GalileanSatelliteController controller = new GalileanSatelliteController(model, pause, speed, dt);
+		GalileanSatelliteController controller = new GalileanSatelliteController(model, view, pause, speed, dt);
 
 		JPanel panel = new JPanel(new BorderLayout());
 
 		AnimationToolBar toolbar = new AnimationToolBar(controller);
-
-		double scale = getDouble("scale", DEFAULT_SCALE);
-
-		GalileanSatelliteView view = new GalileanSatelliteView(model, scale);
 
 		panel.add(toolbar, BorderLayout.NORTH);
 		panel.add(view, BorderLayout.CENTER);
