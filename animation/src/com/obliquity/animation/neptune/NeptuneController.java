@@ -31,12 +31,14 @@ public class NeptuneController extends AbstractAnimationController {
 	private double dt;
 
 	private NeptuneModel model;
+	private NeptuneView view;
 	
-	public NeptuneController(NeptuneModel model, int timerDelay, int timerSpeed, double t0, double dt) {
+	public NeptuneController(NeptuneModel model, NeptuneView view, int timerDelay, int timerSpeed, double t0, double dt) {
 		super(timerDelay, timerSpeed);
 		
 		this.dt = dt;
 		this.model = model;
+		this.view = view;
 		
 		this.t = t0;
 		
@@ -52,5 +54,6 @@ public class NeptuneController extends AbstractAnimationController {
 		t += timestep;
 		
 		model.setTime(t);
+		view.repaint();
 	}
 }

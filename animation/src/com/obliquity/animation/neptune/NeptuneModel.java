@@ -58,19 +58,10 @@ public class NeptuneModel {
 	private double theta[] = new double[2];
 	private double offset[] = new double[2];
 	
-	private NeptuneView view;
-	
-	public void setView(NeptuneView view) {
-		this.view = view;
-	}
-	
 	public void setTime(double t) {
 		this.t = t;
 		
 		calculateAngles();
-		
-		if (view != null)
-			view.repaint();
 	}
 	
 	public double getTime() {

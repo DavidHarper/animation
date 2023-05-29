@@ -35,6 +35,7 @@ import javax.swing.JPanel;
 
 import java.text.DecimalFormat;
 
+@SuppressWarnings("serial")
 public class NeptuneView extends JPanel {
 	private Color uranusColour = Color.green.darker().darker();
 	private Color neptuneColour = Color.blue;
@@ -52,8 +53,6 @@ public class NeptuneView extends JPanel {
 		this.model = model;
 		this.orbitScale = orbitScale;
 		this.offsetScale = offsetScale;
-		
-		model.setView(this);
 		
 		setOpaque(true);
 		setBackground(Color.white);

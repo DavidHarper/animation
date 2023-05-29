@@ -67,6 +67,12 @@ public class NeptuneApp {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		NeptuneModel model = new NeptuneModel();
+
+		double orbitScale = getDouble("orbitscale", DEFAULT_ORBIT_SCALE);
+
+		double offsetScale = getDouble("offsetscale", DEFAULT_OFFSET_SCALE);
+
+		NeptuneView view = new NeptuneView(model, orbitScale, offsetScale);
 		
 		int pause = Integer.getInteger("pause", DEFAULT_PAUSE);
 		
@@ -76,17 +82,11 @@ public class NeptuneApp {
 		
 		double dt = getDouble("dt", DEFAULT_DT);
 		
-		NeptuneController controller = new NeptuneController(model, pause, speed, t0, dt);
+		NeptuneController controller = new NeptuneController(model, view, pause, speed, t0, dt);
 		
 		JPanel panel = new JPanel(new BorderLayout());
 
 		AnimationToolBar toolbar = new AnimationToolBar(controller);
-
-		double orbitScale = getDouble("orbitscale", DEFAULT_ORBIT_SCALE);
-
-		double offsetScale = getDouble("offsetscale", DEFAULT_OFFSET_SCALE);
-
-		NeptuneView view = new NeptuneView(model, orbitScale, offsetScale);
 
 		panel.add(toolbar, BorderLayout.NORTH);
 		panel.add(view, BorderLayout.CENTER);
