@@ -1,0 +1,29 @@
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+version = '2.0'
+
+group = 'com.obliquity.animation'
+
+sourceCompatibility = '16'
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.obliquity.animation.galilean.GalileanSatelliteApp'
+    }
+}
+
+publishing {
+    publications {
+        myLibrary(MavenPublication) {
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = 'myRepo'
+            url = "file://${buildDir}/repo"
+        }
+    }
+}
