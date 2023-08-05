@@ -13,6 +13,13 @@ jar {
     }
 }
 
+repositories {
+	maven {
+       	name 'FreeHEP repository'
+       	url 'https://java.freehep.org/maven2/'
+ 	}    
+}
+
 publishing {
     publications {
         myLibrary(MavenPublication) {
@@ -26,4 +33,17 @@ publishing {
             url = "file://${buildDir}/repo"
         }
     }
+    
+    dependencies {
+    	implementation 'javax.jlfgr:jlfgr:1.0'
+    }
 }
+
+task extlibs(type: Copy) {
+	group 'distribution'
+	description 'Imports external JAR dependencies.'
+	from configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }
+	into "$buildDir/extlibs"
+}
+
+build.dependsOn extlibs
