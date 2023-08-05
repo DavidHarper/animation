@@ -14,9 +14,16 @@ jar {
 }
 
 repositories {
-	maven {
+	mavenCentral()
+
+	maven { // for javax.jlfgr:jlfgr:1.0
        	name 'FreeHEP repository'
        	url 'https://java.freehep.org/maven2/'
+ 	}
+ 	
+ 	maven {
+      	name 'obliquity.com repository'
+       	url 'https://software.obliquity.com/repository'
  	}    
 }
 
@@ -36,6 +43,9 @@ publishing {
     
     dependencies {
     	implementation 'javax.jlfgr:jlfgr:1.0'
+    	implementation 'com.obliquity.astronomy:astrojava:2.0'
+    	implementation 'com.obliquity.astronomy:java-tass17:1.0'
+    	implementation 'com.github.lgooddatepicker:LGoodDatePicker:11.2.1'
     }
 }
 
