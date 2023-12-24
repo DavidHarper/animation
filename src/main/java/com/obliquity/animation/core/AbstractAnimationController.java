@@ -38,7 +38,7 @@ public abstract class AbstractAnimationController implements ActionListener {
 	private boolean reverse = false;
 	private boolean fast = false;
 	private JToolBar toolbar;
-	private JButton btnPlay, btnPause, btnFF, btnRR, btnStepF, btnStepR;
+	private JButton btnPlay, btnFF, btnRR, btnStepF, btnStepR;
 	private ImageIcon iconPause, iconPlay;
 	
 	public enum Action { PLAY, PAUSE, STEP_FORWARD, STEP_BACKWARD, FAST_FORWARD, REWIND };
@@ -57,24 +57,27 @@ public abstract class AbstractAnimationController implements ActionListener {
 	}
 	
 	private JToolBar createToolBar() {
+		iconPlay = findIcon("Play24");
+		iconPause = findIcon("Pause24");
+
 		JToolBar toolbar = new JToolBar();
 		
 		btnPlay = makeNavigationButton("Play24", "Run animation", "Run");
 		
 		btnPlay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				actionPlay();
+				actionPlayOrPause();
 			}
 		});
 		
-		btnPause = makeNavigationButton("Pause24", "Pause animation",
-				"Pause");
+		//btnPause = makeNavigationButton("Pause24", "Pause animation",
+		//		"Pause");
 		
-		btnPause.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				actionPause();
-			}
-		});
+		//btnPause.addActionListener(new ActionListener() {
+		//	public void actionPerformed(ActionEvent ae) {
+		//		actionPause();
+		//	}
+		//});
 		
 		btnFF = makeNavigationButton("FastForward24", "Fast forward",
 				"FF");
@@ -116,7 +119,7 @@ public abstract class AbstractAnimationController implements ActionListener {
 
 		toolbar.addSeparator();
 
-		toolbar.add(btnPause);
+		//toolbar.add(btnPause);
 		toolbar.add(btnPlay);
 
 		toolbar.addSeparator();
@@ -130,25 +133,22 @@ public abstract class AbstractAnimationController implements ActionListener {
 
 		return toolbar;
 	}
-	
-	protected JButton makeNavigationButton(String imageName,
-			String toolTipText, String altText) {
-		// Look for the image.
+
+	private ImageIcon findIcon(String imageName) {
 		String imgLocation = "/toolbarButtonGraphics/media/" + imageName
 				+ ".gif";
 
 		URL imageURL = getClass().getResource(imgLocation);
 
-		// Create and initialize the button.
+		return new ImageIcon(imageURL);
+	}
+
+	protected JButton makeNavigationButton(String imageName,
+			String toolTipText, String altText) {
 		JButton button = new JButton();
 		button.setToolTipText(toolTipText);
 
-		if (imageURL != null) { // image found
-			button.setIcon(new ImageIcon(imageURL));
-		} else { // no image found
-			button.setText(altText);
-			System.err.println("Resource not found: " + imgLocation);
-		}
+		button.setIcon(findIcon(imageName));
 
 		return button;
 	}
@@ -159,8 +159,9 @@ public abstract class AbstractAnimationController implements ActionListener {
 	}
 	
 	private void setButtonsEnabledForRunning() {
-		btnPlay.setEnabled(false);
-		btnPause.setEnabled(true);
+		btnPlay.setIcon(iconPause);
+		btnPlay.setToolTipText("Pause animation");
+
 		btnFF.setEnabled(true);
 		btnRR.setEnabled(true);
 		btnStepF.setEnabled(false);
@@ -168,8 +169,9 @@ public abstract class AbstractAnimationController implements ActionListener {
 	}
 
 	private void setButtonsEnabledForPaused() {
-		btnPlay.setEnabled(true);
-		btnPause.setEnabled(false);
+		btnPlay.setIcon(iconPlay);
+		btnPlay.setToolTipText("Play animation");
+
 		btnFF.setEnabled(false);
 		btnRR.setEnabled(false);
 		btnStepF.setEnabled(true);
@@ -189,17 +191,17 @@ public abstract class AbstractAnimationController implements ActionListener {
 			advanceTime(true, false);
 	}
 
-	private void actionPause() {
-		setButtonsEnabledForPaused();
-		timer.stop();
-	}
+	private void actionPlayOrPause() {
+		if (timer.isRunning()) {
+			setButtonsEnabledForPaused();
+			timer.stop();
+		} else {
+			reverse = false;
+			fast = false;
 
-	private void actionPlay() {
-		reverse = false;
-		fast = false;
-
-		setButtonsEnabledForRunning();
-		timer.start();
+			setButtonsEnabledForRunning();
+			timer.start();
+		}
 	}
 
 	private void actionStepForward() {
