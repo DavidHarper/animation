@@ -28,9 +28,8 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
-
-import com.obliquity.animation.core.AnimationToolBar;
 
 public class NeptuneApp {
 	private static final int DEFAULT_SPEED = 100;
@@ -86,7 +85,7 @@ public class NeptuneApp {
 		
 		JPanel panel = new JPanel(new BorderLayout());
 
-		AnimationToolBar toolbar = new AnimationToolBar(controller);
+		JToolBar toolbar = controller.getToolBar();
 
 		panel.add(toolbar, BorderLayout.NORTH);
 		panel.add(view, BorderLayout.CENTER);

@@ -26,19 +26,26 @@ package com.obliquity.animation.core;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JToolBar;
 import javax.swing.Timer;
 
 public abstract class AbstractAnimationController implements ActionListener {
 	private Timer timer;
 	private boolean reverse = false;
 	private boolean fast = false;
+	private JToolBar toolbar;
+	private JButton btnPlay, btnPause, btnFF, btnRR, btnStepF, btnStepR;
+	private ImageIcon iconPause, iconPlay;
 	
 	public enum Action { PLAY, PAUSE, STEP_FORWARD, STEP_BACKWARD, FAST_FORWARD, REWIND };
 	
 	public AbstractAnimationController(int timerDelay, int timerSpeed) {
 		timer = createTimer(timerDelay, timerSpeed);
+		toolbar = createToolBar();
 	}
 
 	private Timer createTimer(int timerDelay, int timerSpeed) {
@@ -50,56 +57,104 @@ public abstract class AbstractAnimationController implements ActionListener {
 		return timer;
 	}
 	
-	public void registerActionButton(JButton button, Action action) {
-		switch (action) {
-			case PLAY:
-				button.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent ae) {
-						actionPlay();
-					}
-				});
-				break;
+	private JToolBar createToolBar() {
+		JToolBar toolbar = new JToolBar();
+		
+		btnPlay = makeNavigationButton("Play24", "Run animation", "Run");
+		
+		btnPlay.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				actionPlay();
+			}
+		});
+		
+		btnPause = makeNavigationButton("Pause24", "Pause animation",
+				"Pause");
+		
+		btnPause.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				actionPause();
+			}
+		});
+		
+		btnFF = makeNavigationButton("FastForward24", "Fast forward",
+				"FF");
+		
+		btnFF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				actionFastForward();
+			}
+		});
+		
+		btnRR = makeNavigationButton("Rewind24", "Rewind", "RWD");
+		
+		btnRR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				actionRewind();
+			}
+		});
+		
+		btnStepF = makeNavigationButton("StepForward24",
+				"Step forward", "StepFwd");
+		
+		btnStepF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				actionStepForward();
+			}
+		});
+		
+		btnStepR = makeNavigationButton("StepBack24", "Step backward",
+				"StepBack");
+		
+		btnStepR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				actionStepBackward();
+			}
+		});
 
-			case PAUSE:
-				button.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent ae) {
-						actionPause();
-					}
-				});
-				break;
-				
-			case STEP_FORWARD:
-				button.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent ae) {
-						actionStepForward();
-					}
-				});
-				break;
-			
-			case STEP_BACKWARD:
-				button.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent ae) {
-						actionStepBackward();
-					}
-				});
-				break;
-			
-			case FAST_FORWARD:
-				button.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent ae) {
-						actionFastForward();
-					}
-				});
-				break;
-				
-			case REWIND:
-				button.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent ae) {
-						actionRewind();
-					}
-				});
-				break;
+		toolbar.add(btnRR);
+		toolbar.add(btnStepR);
+
+		toolbar.addSeparator();
+
+		toolbar.add(btnPause);
+		toolbar.add(btnPlay);
+
+		toolbar.addSeparator();
+
+		toolbar.add(btnStepF);
+		toolbar.add(btnFF);
+
+		toolbar.setFloatable(false);
+
+		return toolbar;
+	}
+	
+	protected JButton makeNavigationButton(String imageName,
+			String toolTipText, String altText) {
+		// Look for the image.
+		String imgLocation = "/toolbarButtonGraphics/media/" + imageName
+				+ ".gif";
+
+		URL imageURL = getClass().getResource(imgLocation);
+
+		// Create and initialize the button.
+		JButton button = new JButton();
+		button.setToolTipText(toolTipText);
+
+		if (imageURL != null) { // image found
+			button.setIcon(new ImageIcon(imageURL));
+		} else { // no image found
+			button.setText(altText);
+			System.err.println("Resource not found: " + imgLocation);
 		}
+
+		return button;
+	}
+
+	
+	public JToolBar getToolBar() {
+		return toolbar;
 	}
 	
 	private void actionRewind() {
