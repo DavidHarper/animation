@@ -52,7 +52,6 @@ public abstract class AbstractAnimationController implements ActionListener {
 		timer = new Timer(timerSpeed, this);
 		timer.setInitialDelay(timerDelay);
 		timer.setCoalesce(false);
-		timer.start();
 		
 		return timer;
 	}
@@ -127,6 +126,8 @@ public abstract class AbstractAnimationController implements ActionListener {
 
 		toolbar.setFloatable(false);
 
+		setButtonsEnabledForPaused();
+
 		return toolbar;
 	}
 	
@@ -157,6 +158,24 @@ public abstract class AbstractAnimationController implements ActionListener {
 		return toolbar;
 	}
 	
+	private void setButtonsEnabledForRunning() {
+		btnPlay.setEnabled(false);
+		btnPause.setEnabled(true);
+		btnFF.setEnabled(true);
+		btnRR.setEnabled(true);
+		btnStepF.setEnabled(false);
+		btnStepR.setEnabled(false);
+	}
+
+	private void setButtonsEnabledForPaused() {
+		btnPlay.setEnabled(true);
+		btnPause.setEnabled(false);
+		btnFF.setEnabled(false);
+		btnRR.setEnabled(false);
+		btnStepF.setEnabled(true);
+		btnStepR.setEnabled(true);
+	}
+
 	private void actionRewind() {
 		reverse = true;
 		fast = true;
@@ -171,18 +190,16 @@ public abstract class AbstractAnimationController implements ActionListener {
 	}
 
 	private void actionPause() {
-		if (timer.isRunning())
-			timer.stop();
-		else
-			timer.start();
+		setButtonsEnabledForPaused();
+		timer.stop();
 	}
 
 	private void actionPlay() {
 		reverse = false;
 		fast = false;
 
-		if (!timer.isRunning())
-			timer.start();
+		setButtonsEnabledForRunning();
+		timer.start();
 	}
 
 	private void actionStepForward() {
